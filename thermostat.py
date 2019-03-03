@@ -17,7 +17,8 @@ class thermostat:
         self.temp = temp
 
     def setsetting(self,setting):
-        self.setting = setting
+        if setting>40 and setting<90:
+            self.setting = setting
 
     def setswitchPin(self,switchPin):
         self.switchPin = switchPin
@@ -50,6 +51,5 @@ class thermostat:
         sensor = W1ThermSensor()
         while(True):
             self.temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
-            print(self.temp)
             self.switch()
             time.sleep(10)

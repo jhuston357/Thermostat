@@ -1,6 +1,7 @@
 from threading import Thread
 from thermostat import thermostat
 from jsonmqttclient import jsonmqttclient
+import time
 
 server = "test.mosquitto.org"
 subname = "JerimiahsTherm"
@@ -10,12 +11,13 @@ def select_item(dict):
 
 def CLI():
     while True:
-        print(subname + " temp is "+ ts.gettemp() + ".\n\n")
-        text = input(" Options \n 1.Set Temp \n 2.Check Temp \n 3.ShutDown \n")
+        print("\n" + subname + " temp is "+ str(ts.gettemp()) + ".\n")
+        text = input("Options \n1.Set Temp \n2.Check Temp \n3.ShutDown \nEnter 1,2 or 3: ")
 
         if text == "1":
-            print("Current Setting: " + ts.getsetting() + "\n" )
+            print("Current Setting: " + str(ts.getsetting()) + "\n" )
             text = input("New Setting: ")
+            ts.setsetting(int(text))
 
         elif text == "2":
             #DO Nothing
@@ -31,7 +33,6 @@ def CLI():
 
 ts = thermostat(72,72,11)
 jsonmqttclient(server,subname,select_item,ts)
-print("madeit")
-Thread(target=ts.start()).start()
-print("madeit")
+Thread(target=ts.start).start()
+time.sleep(5)
 CLI()
