@@ -24,7 +24,7 @@ def CLI():
         elif text == "3":
             exit()
 
-        else
+        else:
             print("Incorrect input please enter 1,2 or 3! \n\n")
 
 
