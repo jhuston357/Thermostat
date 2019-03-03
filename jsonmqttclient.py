@@ -2,7 +2,7 @@ import json
 import paho.mqtt.client
 
 class jsonmqttclient:
-    def __init__(server,function,object):
+    def __init__(self,server,function,object):
         # Create an MQTT client and attach our routines to it.
         self.server = server
         self.function = function()
