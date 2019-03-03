@@ -13,15 +13,15 @@ def CLI():
         print(subname + " temp is "+ ts.gettemp()+ ".\n\n")
         text = input(" Options \n 1.Set Temp \n 2.Check Temp \n 3.ShutDown \n")
 
-        if text = "1":
+        if text == "1":
             print("Current Setting: " + getsetting() + "\n" )
             text = input("New Setting: ")
 
-        elif text = "2":
+        elif text == "2":
             #DO Nothing
             print("\n\n")
 
-        elif text = "3":
+        elif text == "3":
             exit()
 
         else
