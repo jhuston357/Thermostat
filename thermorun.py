@@ -32,3 +32,4 @@ def CLI():
 ts = thermostat(72,72,11)
 jsonmqttclient(server,subname,select_item,ts)
 t1 = Thread(target=ts.start()).start()
+CLI();
