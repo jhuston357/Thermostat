@@ -3,8 +3,9 @@ from thermostat import thermostat
 from jsonmqttclient import jsonmqttclient
 import time
 
-server = "test.mosquitto.org"
-subname = "JerimiahsTherm"
+host = "test.mosquitto.org"
+subname = "JerimiahsTherm/setting"
+pubname = "JerimiahsTherm/thermostat"
 
 def select_item(dict):
     ts.setsetting( dict["setting"])
@@ -31,8 +32,8 @@ def CLI():
 
 
 
-ts = thermostat(72,72,11)
-jsonmqttclient(server,subname,select_item,ts)
+ts = thermostat(72,72,11,pubname,host)
+jsonmqttclient(host,subname,select_item,ts)
 Thread(target=ts.start).start()
 time.sleep(5)
 CLI()

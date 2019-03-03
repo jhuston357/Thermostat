@@ -1,17 +1,20 @@
 #thermostat controller
 from w1thermsensor import W1ThermSensor
+import paho.mqtt.publish as publish
 import RPi.GPIO as GPIO
 import time
 import json
 
 
 class thermostat:
-    def __init__(self,temp,setting,switchPin):
+    def __init__(self,temp,setting,switchPin,pubName,host):
 
         self.temp = temp
         self.setting = setting
         self.switchPin = switchPin
         self.switchPos = 0
+        self.pubName = pubName
+        self.host =  host
 
     def settemp(self,temp):
         self.temp = temp
@@ -52,4 +55,5 @@ class thermostat:
         while(True):
             self.temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
             self.switch()
-            time.sleep(10)
+            publish.single(self.pubName, self.json_encoding(), hostname=self.host)
+            time.sleep(5)
