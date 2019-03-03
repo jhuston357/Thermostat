@@ -2,18 +2,16 @@
 from w1thermsensor import W1ThermSensor
 import RPi.GPIO as GPIO
 import time
-import socket
+import json
+
 
 class thermostat:
     def __init__(self,temp,setting,switchPin):
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BOARD)
+
         self.temp = temp
         self.setting = setting
         self.switchPin = switchPin
         self.switchPos = 0
-        GPIO.output(self.switchPin,0)
-        sensor = W1ThermSensor()
 
     def settemp(temp):
         self.temp = temp
@@ -33,9 +31,18 @@ class thermostat:
     def getswitchPos():
         return self.switchPos
 
-    def checktemp():
-        self.temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
-        switch()
+    def json_encoding():
+        return json.dumps(self.__dict__)
+
+    def start():
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.output(self.switchPin,0)
+        sensor = W1ThermSensor()
+        while(True):
+            self.temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
+            switch()
+            sleep(10000)
 
     def switch():
         if self.temp >= self.setting:
