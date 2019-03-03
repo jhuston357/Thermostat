@@ -13,41 +13,43 @@ class thermostat:
         self.switchPin = switchPin
         self.switchPos = 0
 
-    def settemp(temp):
+    def settemp(self,temp):
         self.temp = temp
 
-    def setsetting(setting):
+    def setsetting(self,setting):
         self.setting = setting
 
-    def setswitchPin(switchPin):
+    def setswitchPin(self,switchPin):
         self.switchPin = switchPin
 
-    def gettemp():
+    def gettemp(self):
         return self.temp
 
-    def getsetting():
+    def getsetting(self):
         return self.setting
 
-    def getswitchPos():
+    def getswitchPos(self):
         return self.switchPos
 
-    def json_encoding():
+    def json_encoding(self):
         return json.dumps(self.__dict__)
 
-    def start():
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.output(self.switchPin,0)
-        sensor = W1ThermSensor()
-        while(True):
-            self.temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
-            switch()
-            sleep(10000)
-
-    def switch():
+    def switch(self):
         if self.temp >= self.setting:
             GPIO.output(self.switchPin,0)
             self.switchPos = 0
         else:
             GPIO.output(self.switchPin,1)
             self.switchPos = 1
+
+    def start(self):
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.switchPin, GPIO.OUT)
+        GPIO.output(self.switchPin,0)
+        sensor = W1ThermSensor()
+        while(True):
+            self.temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
+            print(self.temp)
+            self.switch()
+            time.sleep(10)
