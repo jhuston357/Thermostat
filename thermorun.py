@@ -5,7 +5,9 @@ from .jsonmqttclient import jsonmqttclient
 server = "test.mosquitto.org"
 subname = "JerimiahsTherm"
 
+def select_item(dict):
+    ts.setsetting( dict["setting"])
+
 ts = thermostat(72,72,11)
-client = jsonmqttclient(server,subname,ts.setsetting(),ts)
+jsonmqttclient(server,subname,select_item,ts)
 t1 = Thread(target=ts.start()).start()
-t2 = Thread(target=client.start()).start()
