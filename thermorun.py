@@ -4,9 +4,11 @@ from jsonmqttclient import jsonmqttclient
 import time
 import socket
 
+#function for parsing setting info from client message and setting thermostat setting temp
 def select_item(dict):
     ts.setsetting( dict["setting"])
 
+# A function that contains the command line interface to interact with therostat
 def CLI():
     while True:
         print("\n" + subname + " temp is "+ str(ts.gettemp()) + ".\n")
@@ -29,12 +31,14 @@ def CLI():
         else:
             print("Incorrect input please enter 1,2 or 3! \n\n")
 
-host = socket.gethostbyname(socket.gethostname())
-subname = "JerimiahsTherm/setting"
-pubname = "JerimiahsTherm/thermostat"
+# intitializing constant variables
 
-ts = thermostat(72,72,11,pubname,host)
-jsonmqttclient(host,subname,select_item,ts)
-Thread(target=ts.start).start()
-time.sleep(5)
-CLI()
+host = socket.gethostbyname(socket.gethostname()) #ip of current device
+subname = "JerimiahsTherm/setting" #subscribe location name
+pubname = "JerimiahsTherm/thermostat" #publish location name
+
+ts = thermostat(72,72,11,pubname,host) #initializes thermostat
+jsonmqttclient(host,subname,select_item,ts) #runs mqtt client
+Thread(target=ts.start).start() #starts the thermostat
+time.sleep(5) # wait five seconds for thermostat to start
+CLI() # run command line loop
