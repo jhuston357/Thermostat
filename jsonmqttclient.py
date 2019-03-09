@@ -1,7 +1,4 @@
 import json
-import paho.mqtt.client
-
-import json
 import paho.mqtt.client as mqtt
 
 def jsonmqttclient(server,subname,function,object):
