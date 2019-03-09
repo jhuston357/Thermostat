@@ -1,6 +1,8 @@
 import json
 import paho.mqtt.client as mqtt
 
+# functions that manages mqtt client
+
 def jsonmqttclient(server,subname,function,object):
 
     def on_connect(client, userdata, flags, rc):
@@ -8,11 +10,11 @@ def jsonmqttclient(server,subname,function,object):
         client.subscribe(subname)
 
     def on_message(client, userdata, msg):
-        print(msg.topic+" "+str(msg.payload))
+        #runs the passed fucntion on incoming data
         function(json.loads(msg.payload))
 
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message
-    client.connect(server, 1883, 60)
-    client.loop_start()
+    client = mqtt.Client() # initialize
+    client.on_connect = on_connect # attach function
+    client.on_message = on_message # attach function
+    client.connect(server, 1883, 60) # initialize server info
+    client.loop_start() # start client loop
