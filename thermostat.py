@@ -20,7 +20,7 @@ class thermostat:
         self.temp = temp
 
     def setsetting(self,setting):
-        if setting>40 and setting<90:
+        if setting>=40 and setting<=90:
             self.setting = setting
 
     def setswitchPin(self,switchPin):
@@ -39,10 +39,10 @@ class thermostat:
         return json.dumps(self.__dict__)
 
     def switch(self):
-        if self.temp >= self.setting:
+        if self.temp >= self.setting + 1:
             GPIO.output(self.switchPin,0)
             self.switchPos = 0
-        else:
+        elif self.temp <= self.setting -1:
             GPIO.output(self.switchPin,1)
             self.switchPos = 1
 

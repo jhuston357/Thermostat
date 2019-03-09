@@ -2,10 +2,7 @@ from threading import Thread
 from thermostat import thermostat
 from jsonmqttclient import jsonmqttclient
 import time
-
-host = "test.mosquitto.org"
-subname = "JerimiahsTherm/setting"
-pubname = "JerimiahsTherm/thermostat"
+import socket
 
 def select_item(dict):
     ts.setsetting( dict["setting"])
@@ -21,8 +18,10 @@ def CLI():
             ts.setsetting(int(text))
 
         elif text == "2":
-            #DO Nothing
-            print("\n\n")
+            check = True
+            while check:
+                #TODO
+                break
 
         elif text == "3":
             exit()
@@ -30,7 +29,9 @@ def CLI():
         else:
             print("Incorrect input please enter 1,2 or 3! \n\n")
 
-
+host = socket.gethostbyname(socket.gethostname())
+subname = "JerimiahsTherm/setting"
+pubname = "JerimiahsTherm/thermostat"
 
 ts = thermostat(72,72,11,pubname,host)
 jsonmqttclient(host,subname,select_item,ts)
