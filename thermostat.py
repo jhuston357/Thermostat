@@ -40,12 +40,14 @@ class thermostat:
         return json.dumps(self.__dict__)
 
     def switch(self):
-        if self.temp >= self.setting:
-            GPIO.output(self.switchPin,0)
-            self.switchPos = 0
+        if self.switchPos == 1:
+            if (self.temp-0.25) >= self.setting:
+                GPIO.output(self.switchPin,0)
+                self.switchPos = 0
         else:
-            GPIO.output(self.switchPin,1)
-            self.switchPos = 1
+            if (self.temp+0.25) < self.setting:
+                GPIO.output(self.switchPin,1)
+                self.switchPos = 1
 
     def start(self):
         GPIO.setwarnings(False)
@@ -56,5 +58,8 @@ class thermostat:
         while(True):
             self.temp = sensor.get_temperature(Unit.DEGREES_F)-17
             self.switch()
-            publish.single(self.pubName, self.json_encoding(), hostname=self.host)
-            time.sleep(5)
+            try:
+                publish.single(self.pubName, self.json_encoding(), hostname=self.host)
+            except:
+                print("publish failed")
+            time.sleep(6)
