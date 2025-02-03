@@ -13,7 +13,7 @@ def select_item(dict):
 def CLI():
     while True:
         print("\n" + subname + " temp is "+ str(ts.gettemp()) + ".\n")
-        text = input("Options \n1.Set Temp \n2.Check Temp \n3.ShutDown \nEnter 1,2 or 3: ")
+        text = input("Options \n1.Set Temp \n2.Check Temp \n3.Set Night Temp \n4.ShutDown \nEnter 1,2 or 3: ")
 
         if text == "1":
             print("Current Setting: " + str(ts.getsetting()) + "\n" )
@@ -25,6 +25,11 @@ def CLI():
             print("\n\n")
 
         elif text == "3":
+            print("Current Night Setting: " + str(ts.getnightSetting()) + "\n" )
+            text = input("New Night Setting: ")
+            ts.setnightSetting(int(text))
+
+        elif text == "4":
             exit()
 
         else:
@@ -32,8 +37,11 @@ def CLI():
 
 
 
-ts = thermostat(72,72,11,pubname,host)
-jsonmqttclient(host,subname,select_item,ts)
+ts = thermostat(72,70,11,pubname,host)
+try:
+    jsonmqttclient(host,subname,select_item,ts)
+except:
+    print ("failed mqtt")
 Thread(target=ts.start).start()
 time.sleep(5)
 CLI()
