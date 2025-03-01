@@ -1,5 +1,7 @@
-A Thermostat written in python run on a RaspberryPi Zero W.
+# Thermostat
 
-Using a DS18b20 thermostat and a 30 amp 120v relay connected to a raspberry pi.
+A thermostat application written in Python, designed to run on a Raspberry Pi Zero W.
 
-Uses mqtt to transmit statistics and receive temperature changes.
+The application uses a [DS18B20 temperature sensor](https://www.adafruit.com/product/374) and a [30 amp 120V relay](https://www.amazon.com/gp/product/B07XKQTV9G) connected to the Raspberry Pi.
+
+The application uses [MQTT](https://mqtt.org/) to transmit statistics and receive temperature changes.
