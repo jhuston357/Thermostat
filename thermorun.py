@@ -1,6 +1,6 @@
 from threading import Thread
 from thermostat import thermostat
-from jsonmqttclient import jsonmqttclient
+from mqttclient import MQTTClient
 import time
 
 host = "test.mosquitto.org"
@@ -39,7 +39,15 @@ def CLI():
 
 ts = thermostat(72,70,11,pubname,host)
 try:
-    jsonmqttclient(host,subname,select_item,ts)
+    mqtt_client = MQTTClient(host)
+mqtt_client.connect()
+mqtt_client.subscribe(subname)
+
+def on_message(client, userdata, msg):
+    data = json.loads(msg.payload)
+    ts.setsetting(data["setting"])
+
+mqtt_client.on_message = on_message
 except:
     print ("failed mqtt")
 Thread(target=ts.start).start()
